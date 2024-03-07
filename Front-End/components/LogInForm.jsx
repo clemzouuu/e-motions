@@ -1,56 +1,57 @@
 import React, {useState} from 'react';
-import '../public/css/SignUpForm.css';
+import '../public/css/LogInForm.css';
 
-export default function SignUpForm() {
+export default function LogInForm() {
 
     const [formData, setFormData] = useState({
         username:"",
         password:"",
     })
 
-    function handleChange(event){
-        const { name, value, type, checked } = event.target
+    function handleChange(e){
+        const { name, value } = e.target
         setFormData((prevValue) => ({
-            ...prevValue,
-            [name]: type === 'checkbox' ? checked : value
+            ...prevValue, // Spread operator to copy the old values
+            [name]: value
         })
         )  
     }
 
-    function handleSubmit(event) {
-        event.preventDefault()
+    function handleSubmit(e) {
+        e.preventDefault()
 
         const {username,password} = formData
-        
-        if(username,password){
-          
-        }
+        if(username && password)
+            if(username.trim()!="" && password.trim() != "")
+                alert("cc")
       }
     
     return (
-        <div className="formContainer">
-            <form className="form" onSubmit={handleSubmit}>
-                <p>Connexion</p>
-                <input
-                type="sername"
-                placeholder="Nom d'utilisateur"
-                className="formInput"
-                name="username"
-                onChange={handleChange}
-                value={formData.username}
-                />
+        <>
+            <div className="formContainer">
+                <form className="form" onSubmit={handleSubmit}>
+                    <p>Connexion</p>
+                    <input
+                    type="text"
+                    placeholder="Nom d'utilisateur"
+                    className="formInput"
+                    name="username"
+                    onChange={handleChange}
+                    value={formData.username}
+                    />
 
-                <input
-                type="password"
-                placeholder="Mot de passe"
-                className="formInput"
-                name="password"
-                onChange={handleChange}
-                value={formData.password}
-                />
+                    <input
+                    type="password"
+                    placeholder="Mot de passe"
+                    className="formInput"
+                    name="password"
+                    onChange={handleChange}
+                    value={formData.password}
+                    />
 
-                <button className="formSubmit">Se connecter</button>
-            </form>
-      </div>
+                    <button className="formSubmit">Se connecter</button>
+                </form>
+            </div>
+      </>
   );
 }
