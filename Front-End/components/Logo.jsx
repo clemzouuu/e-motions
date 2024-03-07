@@ -9,12 +9,15 @@ export default function Logo() {
 
     // Make the logo appear and deleting it
     useEffect(() => {
+        if(document.body.classList == 'lightBody')
+            document.body.classList.replace('lightBody', 'darkBody');
+            
         document.body.classList.add('darkBody');
         const timer = setTimeout(() => {
         setHideLogo(true); 
         const displayTimer = setTimeout(() => {
             setDisplayLogo(false); 
-        }, 500);
+        }, 1000);
         document.body.classList.replace('darkBody', 'lightBody');
         }, 1500);
         return () => clearTimeout(timer); 
@@ -31,7 +34,7 @@ export default function Logo() {
             <p className={`logoText logo ${hideLogo ? 'logo-hidden' : ''}`}>e-motions</p>
             </div>
 
-            <SignUpForm/>
+            {hideLogo && <SignUpForm/>}
         </>
     )
 }
