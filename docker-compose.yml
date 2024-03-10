@@ -1,14 +1,15 @@
 version: '3.8'
 
 services:
+
   backend:
     build:
       context: ./Back-End
-    volumes:
-      - ./Back-End:/var/www/html
     ports:
-      - "9000:90"
-
+    - "9000:80"
+    volumes:
+      - ./Back-End/app:/var/www/html
+    
   nginx:
     image: nginx:latest
     ports:
@@ -16,6 +17,21 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./Front-End/dist:/usr/share/nginx/html 
-    depends_on:
-      - backend
+
+  db:
+    image: 'mariadb'
+    restart: always
+    environment:
+      MYSQL_DATABASE: e-motions
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./Back-End/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - '8081:80'
+    environment:
+      - PMA_ARBITRARY=1
 

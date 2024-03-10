@@ -5,6 +5,7 @@ import Logo from '../components/Logo';
 import LogInForm from '../components/LogInForm';
 import SignUpForm from '../components/SignUpForm';
 import NoPageFound from '../components/NoPageFound';
+import Homepage from '../components/Homepage';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/home" element={<Logo/>} />
           <Route path="/login" element={<LogInForm />} />
           <Route path="/signup" element={<SignUpForm />} />
+          <Route path="/homepage" element={<Homepage />} />
         </Routes>
       </>
     </Router>
