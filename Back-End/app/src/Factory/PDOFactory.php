@@ -11,7 +11,7 @@ class PDOFactory implements Database
     private string $userName;
     private string $password;
 
-    public function __construct(string $host = "db", string $dbName = "Quickie", string $userName = "root", string $password = "password")
+    public function __construct(string $host = "db", string $dbName = "e-motions", string $userName = "root", string $password = "password")
     {
         $this->host = $host;
         $this->dbName = $dbName;

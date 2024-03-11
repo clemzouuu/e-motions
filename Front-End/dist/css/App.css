@@ -1,0 +1,29 @@
+body {
+    font-family: "Nunito Sans", sans-serif; 
+    margin: 0;
+}
+
+.body {
+    display: grid;
+    grid-template-columns: .7fr 3.3fr;
+}
+
+.menu{
+    grid-column: 1;
+    background-color: rgb(241, 238, 233);
+}
+
+.menu > h1
+{
+    font-size: .5;
+    color: red;
+    font-weight: 500;
+}
+
+.logoHomepage{
+    height: 50%;
+}
+
+.dashboard{
+    grid-column: 2;background-color: white;
+}

@@ -49,9 +49,7 @@ foreach ($routesObj as $route) {
     new $controlerClassName($action, $params);
     exit();
 }
-
-$errorMessage = "Erreur";
-
-echo $errorMessage;
+ 
+echo "Error";
 
 die();

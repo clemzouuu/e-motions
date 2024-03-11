@@ -10,7 +10,6 @@ class User extends BaseEntity implements UserInterface, PasswordProtectedInterfa
     private int $id;
     private string $username;
     private string $password;
-    private string $email;
 
     /**
      * @return int
@@ -64,24 +63,6 @@ class User extends BaseEntity implements UserInterface, PasswordProtectedInterfa
     public function getUsername(): string
     {
         return $this->username;
-    }
-
-    /**
-     * @param string $email
-     * @return User
-     */
-    public function setEmail(string $email): User
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
     }
 
     public function getHashedPassword(): string
