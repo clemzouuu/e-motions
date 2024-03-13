@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../public/css/SignUpForm.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-export default function SignUpForm() {
+export default function SignUpForm(props) {
 
     const [formData, setFormData] = useState({
         username:"",
@@ -23,13 +24,32 @@ export default function SignUpForm() {
         event.preventDefault()
 
         const {username,password,passwordConfirmation} = formData
+
+        const data = {
+          username: formData.username,
+          password: formData.password
+      };
+
+        const url = 'http://localhost:8080/api/registerUser';
+        const config = {
+          headers: {
+              'Content-Type': 'application/json'
+          }
+        };
         
         if(username,password,passwordConfirmation){
-          if(password === passwordConfirmation) {
-            alert('Successfully signed up')
-          }else{
-            alert('Passwords to not match.')
-          }
+          if(password == passwordConfirmation) {
+            axios.post(url, data, config)
+              .then(function (response) {
+                  if(response.data != ""){  
+                     alert(response.data) 
+                     return;
+                  }
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+          } 
         }
       }
     

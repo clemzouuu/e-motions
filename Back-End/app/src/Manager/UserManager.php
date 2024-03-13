@@ -38,28 +38,24 @@ class UserManager extends BaseManager
 
     public function insertUser(User $user)
     {
-        $query = $this->pdo->prepare("INSERT INTO Users (password, username, email) VALUES (:password, :username, :email)");
+        $query = $this->pdo->prepare("INSERT INTO Users (password, username) VALUES (:password, :username)");
         $query->bindValue("password", $user->getHashedPassword(), \PDO::PARAM_STR);
         $query->bindValue("username", $user->getUsername(), \PDO::PARAM_STR);
-        $query->bindValue("email", $user->getEmail(), \PDO::PARAM_STR);
         $query->execute();
     }
 
-    public function verifyDuplicates(User $user) {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
+    public function verifyDuplicates(User $user,array $data):bool {
+        $username = $data['username'];
 
     // Vérifier si le nom d'utilisateur ou l'adresse mail existe déjà dans la base de données
-        $query = $this->pdo->prepare('SELECT * FROM Users WHERE username = :username AND email = :email');
-        $query->execute(['username' => $username, 'email' => $email]);
+        $query = $this->pdo->prepare('SELECT * FROM Users WHERE username = :username');
+        $query->execute(['username' => $username]);
         $user = $query->fetch();
 
         if ($user) {
             // Afficher un message d'erreur ou un message d'avertissement
             if ($user['username'] === $username) {
                 echo "Le nom d'utilisateur est déjà utilisé.";
-            } else {
-                echo "L'adresse mail est déjà utilisée.";
                 return false;
             }
         }else {
