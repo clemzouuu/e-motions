@@ -2,6 +2,7 @@ import logo from '../src/assets/logo.png'
 import { useState,useEffect } from 'react'
 import SignUpForm from './SignUpForm';
 import '../public/css/Logo.css';
+
 export default function Logo() {
 
     const [hideLogo, setHideLogo] = useState(false); // Hide logo
@@ -26,12 +27,12 @@ export default function Logo() {
     return (
         <>
             <div className='logoDiv' style={{ display: displayLogo ? '' : 'none' }}>
-            <img 
-            src={logo} 
-            alt="App logo e-motions"  
-            className={`logo ${hideLogo ? 'logo-hidden' : ''}`}
-            /> 
-            <p className={`logoText logo ${hideLogo ? 'logo-hidden' : ''}`}>e-motions</p>
+                <img 
+                src={logo} 
+                alt="App logo e-motions"  
+                className={`logo ${hideLogo ? 'logo-hidden' : ''}`}
+                /> 
+                <p className={`logoText logo ${hideLogo ? 'logo-hidden' : ''}`}>e-motions</p>
             </div>
 
             {hideLogo && <SignUpForm/>}
