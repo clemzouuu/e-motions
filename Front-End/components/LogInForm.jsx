@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import '../public/css/LogInForm.css';
-import axios from 'axios'; 
+import axios, { AxiosError } from 'axios'; 
 import { Reggex } from './Reggex';
 import { useNavigate } from 'react-router-dom';
 
@@ -46,13 +46,12 @@ export default function LogInForm() {
         if(texteFiltre && password)
             if(texteFiltre.trim()!="" && password.trim() != "")
                 axios.post(url, formData, config)
-                .then(function (response) {
+                .then(function (response) { 
                     if(response.data === '') {   
                         navigate("/home", {replace:true});
                         return
                     }  
                     alert(response.data.message)
-                    console.log(response)
                 })
                 .catch(function (error) {
                     console.log(error);

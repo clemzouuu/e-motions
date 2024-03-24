@@ -70,8 +70,8 @@ class User extends BaseEntity implements UserInterface, PasswordProtectedInterfa
         return password_hash($this->password,PASSWORD_DEFAULT);
     }
 
-    public function passwordMatch(string $hash, string $password): bool
+    public function passwordMatch(string $plainPwd, string $hash): bool
     {
-        return password_verify($hash, $password);
+        return password_verify($plainPwd, $hash);
     }
 }

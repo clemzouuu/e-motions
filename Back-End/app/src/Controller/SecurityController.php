@@ -46,8 +46,11 @@ class SecurityController extends AbstractController
 
         $hash = $userManager->getHash($username);
 
-        if ($user->passwordMatch($hash,$password)){
-           return true;
+        if ($hash !== null && $user->passwordMatch($password, $hash)) {
+            http_response_code(200);
+        } else {
+            http_response_code(404); 
+            echo json_encode(['message' => "Utilisateur non trouvé ou mot de passe incorrect"]);
         }
     }
 
