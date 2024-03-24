@@ -35,7 +35,7 @@ export default function Logo() {
                 <p className={`logoText logo ${hideLogo ? 'logo-hidden' : ''}`}>e-motions</p>
             </div>
 
-            {hideLogo && <SignUpForm/>}
+            {hideLogo && <SignUpForm />}
         </>
     )
 }

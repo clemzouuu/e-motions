@@ -10,20 +10,52 @@ body {
 
 .menu{
     grid-column: 1;
-    background-color: rgb(241, 238, 233);
+    background-color: rgb(241, 238, 233); 
 }
 
-.menu > h1
+.mainTitle, a
 {
-    font-size: .5;
-    color: red;
-    font-weight: 500;
+    margin: 0;
 }
+
+.mainTitle{
+    position: relative;
+    bottom: 60px;
+}
+
 
 .logoHomepage{
-    height: 50%;
+    width: 100%;
 }
 
 .dashboard{
     grid-column: 2;background-color: white;
+    height: 100vh;
 }
+
+a, a:hover, a:visited, a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+h2 {
+    cursor: pointer;
+}
+
+.menuButtons, .subMenuButtons{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
+
+.connect {
+    text-decoration: underline;
+}
+
+.showPassowrd{
+    cursor: pointer;
+    height: 15px;
+    position: relative;
+    bottom: 52px;
+    left: 80px;
+} 

@@ -32,7 +32,21 @@ class UserManager extends BaseManager
         if ($data) {
             return new User($data);
         }
+        echo json_encode(['message' => "Nom d'utilisateur ou mot de passe invalide."]);
+        http_response_code(404);
+        return null;
+    }
 
+    public function getHash(string $username): string
+    {
+        $query = $this->pdo->prepare("SELECT password FROM Users WHERE username = :username");
+        $query->bindValue("username", $username, \PDO::PARAM_STR);
+        $query->execute();
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+
+        if ($data) {
+            return $data['password'];
+        }
         return null;
     }
 

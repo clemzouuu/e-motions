@@ -30,19 +30,24 @@ class SecurityController extends AbstractController
         } 
     }
 
-    #[Route('/logged', name: "logged", methods: ["POST"])]
-    public function logged() 
+    #[Route('/api/logUser', name: "log user", methods: ["POST"])]
+    public function logUser() 
     {
-        $formUsername = $_POST['username'];
-        $formPwd = $_POST['password'];
-        $userManager = new UserManager(new PDOFactory());
-        $user = $userManager->getByUsername($formUsername);
 
+        $data = json_decode(file_get_contents('php://input'), true);
+        $username = htmlentities($data['username']);
+        $password = $data['password']; 
+        $userManager = new UserManager(new PDOFactory());
+        $user = $userManager->getByUsername($username);
+        
         if (!$user) {
-            return;
+            return false;
         }
-        if ($user->passwordMatch($formPwd)) {
-           return;
+
+        $hash = $userManager->getHash($username);
+
+        if ($user->passwordMatch($hash,$password)){
+           return true;
         }
     }
 
