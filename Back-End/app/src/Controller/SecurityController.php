@@ -11,37 +11,47 @@ use App\Route\Route;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/registerUser', name: "new user", methods: ["POST"])]
-    public function registerNewUser():bool
-    {
-        $username = htmlentities($_POST['username']);
-        $password = $_POST["password"];
-        $sanitizedUsername = filter_input(INPUT_POST,"username",FILTER_SANITIZE_SPECIAL_CHARS);
-        $userManager = new UserManager(new PDOFactory());
-        $newUser = new User();
-        $newUser->setUsername($sanitizedUsername);
-        $newUser->setPassword($password);
-        if($userManager->verifyDuplicates($newUser)){
-            $userManager->insertUser($newUser);
-            return TRUE;
-        }
-        return FALSE;
-        
+    #[Route('/api/registerUser', name: "new user", methods: ["POST"])]
+    public function registerNewUser():void
+    { 
+        $data = json_decode(file_get_contents('php://input'), true);
+        $username = htmlentities($data['username']);
+        $password = $data['password'];  
+
+        if($username && $password){
+            
+            $userManager = new UserManager(new PDOFactory());
+            $newUser = new User();
+            $newUser->setUsername($username);
+            $newUser->setPassword($password);
+            if($userManager->verifyDuplicates($newUser,$data)){
+                $userManager->insertUser($newUser);
+            }
+        } 
     }
 
-    #[Route('/logged', name: "logged", methods: ["POST"])]
-    public function logged() 
+    #[Route('/api/logUser', name: "log user", methods: ["POST"])]
+    public function logUser() 
     {
-        $formUsername = $_POST['username'];
-        $formPwd = $_POST['password'];
-        $userManager = new UserManager(new PDOFactory());
-        $user = $userManager->getByUsername($formUsername);
 
+        $data = json_decode(file_get_contents('php://input'), true);
+        $username = htmlentities($data['username']);
+        $password = $data['password']; 
+        $userManager = new UserManager(new PDOFactory());
+        $user = $userManager->getByUsername($username);
+        
         if (!$user) {
-            return;
+            return false;
         }
-        if ($user->passwordMatch($formPwd)) {
-           return;
+ 
+        
+        $hash = $userManager->getHash($username);
+
+        if ($hash !== null && $user->passwordMatch($password, $hash)) {
+            http_response_code(200);
+        } else {
+            http_response_code(404); 
+            echo json_encode(['message' => "Utilisateur non trouvé ou mot de passe incorrect"]);
         }
     }
 

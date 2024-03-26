@@ -1,8 +1,14 @@
 import React, {useState} from 'react';
 import '../public/css/LogInForm.css';
+import axios, { AxiosError } from 'axios'; 
+import { Reggex } from './Reggex';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function LogInForm() {
 
+    const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         username:"",
         password:"",
@@ -11,20 +17,48 @@ export default function LogInForm() {
     function handleChange(e){
         const { name, value } = e.target
         setFormData((prevValue) => ({
-            ...prevValue, // Spread operator to copy the old values
+            ...prevValue, 
             [name]: value
         })
         )  
     }
 
+    function handleChangeUsername(event){
+        const { name, value } = event.target
+        setFormData((prevValue) => ({
+            ...prevValue,
+            [name]: Reggex(value)
+        }))  
+    }
+
     function handleSubmit(e) {
         e.preventDefault()
-
+        const url = 'http://localhost:8080/api/logUser';
         const {username,password} = formData
-        if(username && password)
-            if(username.trim()!="" && password.trim() != "")
-                alert("cc")
-      }
+        const texteFiltre = Reggex(formData.username);
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        if(texteFiltre && password)
+            if(texteFiltre.trim()!="" && password.trim() != "")
+                axios.post(url, formData, config)
+                .then(function (response) { 
+                    if(response.data === '') {   
+                        navigate("/home", {replace:true});
+                        return
+                    }  
+                    alert(response.data.message)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+      
+      
+    }
     
     return (
         <>
@@ -36,7 +70,7 @@ export default function LogInForm() {
                     placeholder="Nom d'utilisateur"
                     className="formInput"
                     name="username"
-                    onChange={handleChange}
+                    onChange={handleChangeUsername}
                     value={formData.username}
                     />
 
