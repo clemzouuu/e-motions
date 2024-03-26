@@ -43,7 +43,8 @@ class SecurityController extends AbstractController
         if (!$user) {
             return false;
         }
-
+ 
+        
         $hash = $userManager->getHash($username);
 
         if ($hash !== null && $user->passwordMatch($password, $hash)) {
