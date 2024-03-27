@@ -3,11 +3,12 @@ import "../public/css/homepage/Homepage.css"
 import Profile from './homepageComponents/Profile';
 import Objectives from './homepageComponents/Objectives';
 import Mood from './homepageComponents/Mood'; 
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { useLocation, BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import Home from './homepageComponents/Home';
 
 
 export default function Homepage() {
+ 
     return(
         <div className="body">
             <div className="menu">

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LogInForm() {
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     
     const [formData, setFormData] = useState({
         username:"",
@@ -46,11 +46,9 @@ export default function LogInForm() {
         if(texteFiltre && password)
             if(texteFiltre.trim()!="" && password.trim() != "")
                 axios.post(url, formData, config)
-                .then(function (response) {  
-                    console.log(response.data.id);
-                    console.log(response.data.username);
-                    if(response.data === '') {   
-                        navigate("/home", {replace:true});
+                .then(function (response) {    
+                    if(response.data && response.data.id) {   
+                        navigate(`/home/${response.data.id}/${response.data.username}`,{replace:true});
                         return
                     }
                     alert(response.data.message)
