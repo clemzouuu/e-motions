@@ -31,7 +31,7 @@ export default function Profile() {
         event.preventDefault()
     
         const {username,password,oldPassword} = formData
-        const url = 'http://localhost:8080/api/changeprofileinformations';
+        const url = 'http://localhost:8080/api/profile/';
         const texteFiltre = Reggex(formData.username);
     
         const data = {

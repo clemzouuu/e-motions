@@ -48,6 +48,7 @@ class SecurityController extends AbstractController
         $hash = $userManager->getHash($username);
 
         if ($hash !== null && $user->passwordMatch($password, $hash)) {
+            $userManager->getUsernameAndId($username);
             http_response_code(200);
         } else {
             http_response_code(404); 
