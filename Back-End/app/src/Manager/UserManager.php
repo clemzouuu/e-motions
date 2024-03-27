@@ -24,7 +24,7 @@ class UserManager extends BaseManager
 
     public function getByUsername(string $username): ?User
     {
-        $query = $this->pdo->prepare("SELECT * FROM Users WHERE username = :username");
+        $query = $this->pdo->prepare("SELECT id FROM Users WHERE username = :username");
         $query->bindValue("username", $username, \PDO::PARAM_STR);
         $query->execute();
         $data = $query->fetch(\PDO::FETCH_ASSOC);
@@ -35,6 +35,24 @@ class UserManager extends BaseManager
         echo json_encode(['message' => "Nom d'utilisateur ou mot de passe invalide."]);
         http_response_code(404);
         return null;
+    }
+
+    public function getUsernameAndId(string $username): void
+    {
+        $query = $this->pdo->prepare("SELECT id,username FROM Users WHERE username = :username");
+        $query->bindValue("username", $username, \PDO::PARAM_STR); 
+        $query->execute();
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+
+        if ($data) {
+            echo json_encode([
+                "id" => $data['id'],
+                "username" => $data['username']
+            ]);
+            return;
+        } 
+        echo json_encode(['message' => "Nom d'utilisateur ou mot de passe invalide."]);
+        http_response_code(404); 
     }
 
     public function getHash(string $username): string
